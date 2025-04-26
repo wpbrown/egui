@@ -3,7 +3,6 @@ use std::time::Instant;
 use winit::{
     application::ApplicationHandler,
     event_loop::{ActiveEventLoop, ControlFlow, EventLoop},
-    platform::pump_events::{EventLoopExtPumpEvents, PumpStatus},
     window::WindowId,
 };
 
@@ -481,11 +480,14 @@ impl<'a> EframeWinitApplication<'a> {
     }
 
     /// TODO(wpbrown): docs
+    #[cfg(not(target_os = "ios"))]
     pub fn pump_eframe_app(
         &mut self,
         event_loop: &mut EventLoop<UserEvent>,
         timeout: Option<std::time::Duration>,
     ) -> EframePumpStatus {
+        use winit::platform::pump_events::{EventLoopExtPumpEvents, PumpStatus};
+
         match event_loop.pump_app_events(timeout, self) {
             PumpStatus::Continue => EframePumpStatus::Continue(self.control_flow),
             PumpStatus::Exit(code) => EframePumpStatus::Exit(code),
@@ -494,6 +496,7 @@ impl<'a> EframeWinitApplication<'a> {
 }
 
 /// TODO(wpbrown): docs
+#[cfg(not(target_os = "ios"))]
 pub enum EframePumpStatus {
     /// TODO(wpbrown): docs
     Continue(ControlFlow),

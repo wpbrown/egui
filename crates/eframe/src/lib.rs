@@ -184,7 +184,11 @@ mod native;
 
 #[cfg(not(target_arch = "wasm32"))]
 #[cfg(any(feature = "glow", feature = "wgpu"))]
-pub use native::run::{EframePumpStatus, EframeWinitApplication};
+pub use native::run::EframeWinitApplication;
+
+#[cfg(not(any(target_arch = "wasm32", target_os = "ios")))]
+#[cfg(any(feature = "glow", feature = "wgpu"))]
+pub use native::run::EframePumpStatus;
 
 #[cfg(not(target_arch = "wasm32"))]
 #[cfg(any(feature = "glow", feature = "wgpu"))]
