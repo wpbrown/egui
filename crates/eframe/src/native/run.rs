@@ -416,7 +416,10 @@ pub fn create_wgpu<'a>(
 
 // ----------------------------------------------------------------------------
 
-/// TODO(wpbrown): docs
+/// A proxy to the eframe application that implements [`ApplicationHandler`].
+///
+/// This can be run directly on your own [`EventLoop`] by itself or with other
+/// windows you manage outside of eframe.
 pub struct EframeWinitApplication<'a> {
     wrapper: Box<dyn ApplicationHandler<UserEvent> + 'a>,
     control_flow: ControlFlow,
@@ -479,7 +482,13 @@ impl<'a> EframeWinitApplication<'a> {
         }
     }
 
-    /// TODO(wpbrown): docs
+    /// Pump the `EventLoop` to check for and dispatch pending events to this application.
+    ///
+    /// Returns either the exit code for the application or the final state of the [`ControlFlow`]
+    /// after all events have been dispatched in this iteration.
+    ///
+    /// This is useful when your [`EventLoop`] is not the main event loop for your application.
+    /// See the `external_eventloop_async` example.
     #[cfg(not(target_os = "ios"))]
     pub fn pump_eframe_app(
         &mut self,
@@ -495,12 +504,16 @@ impl<'a> EframeWinitApplication<'a> {
     }
 }
 
-/// TODO(wpbrown): docs
+/// Either an exit code or a [`ControlFlow`] from the [`ActiveEventLoop`].
+///
+/// The result of [`EframeWinitApplication::pump_eframe_app`].
 #[cfg(not(target_os = "ios"))]
 pub enum EframePumpStatus {
-    /// TODO(wpbrown): docs
+    /// The final state of the [`ControlFlow`] after all events have been dispatched
+    ///
+    /// Callers should perform the action that is appropriate for the [`ControlFlow`] value.
     Continue(ControlFlow),
 
-    /// TODO(wpbrown): docs
+    /// The exit code for the application
     Exit(i32),
 }
