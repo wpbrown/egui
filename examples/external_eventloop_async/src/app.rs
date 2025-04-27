@@ -1,5 +1,3 @@
-#![allow(rustdoc::missing_crate_level_docs)] // it's an example
-
 use eframe::{egui, EframePumpStatus, UserEvent};
 use std::{cell::Cell, io, os::fd::AsRawFd, rc::Rc, time::Duration};
 use tokio::task::LocalSet;

@@ -1,3 +1,5 @@
+#![allow(rustdoc::missing_crate_level_docs)] // it's an example
+
 #[cfg(target_os = "linux")]
 mod app;
 
